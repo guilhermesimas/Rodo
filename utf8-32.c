@@ -6,7 +6,7 @@ unsigned int conv_litte_endian(unsigned int n)
 	unsigned int aux, saida, mask=0xFF;
 	int i;
 
-	saida=0x0;
+	saida=0;
 
 	for(i=0;i<4;i++)
 	{
@@ -36,6 +36,12 @@ int conv8_32(FILE *arq_entrada, FILE *arq_saida, char ordem)
 			qtd_bytes++;
 
 			byte_lido<<=1;
+		}
+
+		if(qtd_bytes>4) 
+		{
+			printf("Erro no byte %d",num_byte);
+			return -1;
 		}
 
 		if(qtd_bytes==1)
