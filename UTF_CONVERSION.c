@@ -130,14 +130,18 @@ int conv32_8 ( FILE *arq_entrada , FILE *arq_saida ){
 }
 int main (void)
 {
-	FILE* entrada,*saida;
-	saida=fopen("RESULTADO.txt","w");
-	entrada=fopen("utf32_grande_big.txt","r");
-	if(entrada==NULL)
-	{
-		printf("cao");
-		return 1;
-	}
-	conv32_8(entrada,saida);
+	unsigned int a,i;
+	char * b;
+	
+	a=0x1100;
+	a=12;
+
+	b=(char *) &a;
+
+	for(i=0;i<4;i++)
+		printf("%p - %.2x\n",&b,b[i]);
+	
+	printf("%d",a);
+
 	return 0;
 }
