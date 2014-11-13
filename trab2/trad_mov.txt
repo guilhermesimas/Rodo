@@ -1,54 +1,102 @@
 00000000 <f>:
-   0:	55                   	push   %ebp
-   1:	89 ec                	mov    %ebp,%esp
-   3:	83 ec 14             	sub    $0x14,%esp
+   
+0:	55                   	push   %ebp
+   
+1:	89 ec                	mov    %ebp,%esp
+   
+3:	83 ec 14             	sub    $0x14,%esp
+
 
 Disassembly of section .text:
 
 00000000 <f>:
-   0:	55                   	push   %ebp
-   1:	89 ec                	mov    %ebp,%esp
-   3:	83 ec 14             	sub    $0x14,%esp
+   0:
+	55                   	push   %ebp
+   
+1:	89 ec                	mov    %ebp,%esp
+  
+ 3:	83 ec 14             	sub    $0x14,%esp
+
+
 
 00000006 <MOV8>:
-   6:	8b 4d 08             	mov    0x8(%ebp),%ecx
-   9:	8b 4d f8             	mov    -0x8(%ebp),%ecx
-   c:	8b 45 08             	mov    0x8(%ebp),%eax
-   f:	8b 45 f8             	mov    -0x8(%ebp),%eax
-  12:	89 4d 08             	mov    %ecx,0x8(%ebp)
-  15:	89 4d f8             	mov    %ecx,-0x8(%ebp)
+   
+6:	8b 4d 08             	mov    0x8(%ebp),%ecx
+   
+9:	8b 4d f8             	mov    -0x8(%ebp),%ecx
+  
+ c:	8b 45 08             	mov    0x8(%ebp),%eax
+   
+f:	8b 45 f8             	mov    -0x8(%ebp),%eax
+  
+12:	89 4d 08             	mov    %ecx,0x8(%ebp)
+  
+15:	89 4d f8             	mov    %ecx,-0x8(%ebp)
+
+
 
 00000018 <MOV16>:
-  18:	8b 4d 10             	mov    0x10(%ebp),%ecx
-  1b:	8b 4d f0             	mov    -0x10(%ebp),%ecx
-  1e:	8b 45 10             	mov    0x10(%ebp),%eax
-  21:	8b 45 f0             	mov    -0x10(%ebp),%eax
-  24:	89 4d 10             	mov    %ecx,0x10(%ebp)
-  27:	89 4d f0             	mov    %ecx,-0x10(%ebp)
+  
+18:	8b 4d 10             	mov    0x10(%ebp),%ecx
+ 
+ 1b:	8b 4d f0             	mov    -0x10(%ebp),%ecx
+  
+1e:	8b 45 10             	mov    0x10(%ebp),%eax
+  
+21:	8b 45 f0             	mov    -0x10(%ebp),%eax
+  
+24:	89 4d 10             	mov    %ecx,0x10(%ebp)
+  
+27:	89 4d f0             	mov    %ecx,-0x10(%ebp)
+
+
 
 0000002a <MOV20>:
-  2a:	8b 4d 14             	mov    0x14(%ebp),%ecx
-  2d:	8b 4d ec             	mov    -0x14(%ebp),%ecx
-  30:	8b 45 14             	mov    0x14(%ebp),%eax
-  33:	8b 45 ec             	mov    -0x14(%ebp),%eax
-  36:	89 4d 14             	mov    %ecx,0x14(%ebp)
-  39:	89 4d ec             	mov    %ecx,-0x14(%ebp)
+  
+2a:	8b 4d 14             	mov    0x14(%ebp),%ecx
+  
+2d:	8b 4d ec             	mov    -0x14(%ebp),%ecx
+ 
+ 30:	8b 45 14             	mov    0x14(%ebp),%eax
+ 
+ 33:	8b 45 ec             	mov    -0x14(%ebp),%eax
+  
+36:	89 4d 14             	mov    %ecx,0x14(%ebp)
+  
+39:	89 4d ec             	mov    %ecx,-0x14(%ebp)
+
 
 0000003c <MOV24>:
-  3c:	8b 4d 18             	mov    0x18(%ebp),%ecx
-  3f:	8b 4d e8             	mov    -0x18(%ebp),%ecx
-  42:	8b 45 18             	mov    0x18(%ebp),%eax
+ 
+ 3c:	8b 4d 18             	mov    0x18(%ebp),%ecx
+  
+3f:	8b 4d e8             	mov    -0x18(%ebp),%ecx
+  
+42:	8b 45 18             	mov    0x18(%ebp),%eax
+
   45:	8b 45 e8             	mov    -0x18(%ebp),%eax
-  48:	89 4d 18             	mov    %ecx,0x18(%ebp)
-  4b:	89 4d e8             	mov    %ecx,-0x18(%ebp)
+ 
+ 48:	89 4d 18             	mov    %ecx,0x18(%ebp)
+  
+4b:	89 4d e8             	mov    %ecx,-0x18(%ebp)
+
+
 
 0000003c <MOVC>:
-  3c:	b8 03 00 00 00       	mov    $0x3,%eax
-  41:	b8 08 00 00 00       	mov    $0x8,%eax
-  46:	b8 10 00 00 00       	mov    $0x10,%eax
-  4b:	b8 02 01 00 00       	mov    $0x102,%eax
+  
+3c:	b8 03 00 00 00       	mov    $0x3,%eax
+  
+41:	b8 08 00 00 00       	mov    $0x8,%eax
+ 
+ 46:	b8 10 00 00 00       	mov    $0x10,%eax
+  
+4b:	b8 02 01 00 00       	mov    $0x102,%eax
+
 
 00000050 <FIM>:
-  50:	89 ec                	mov    %ebp,%esp
-  52:	5d                   	pop    %ebp
-  53:	c3                   	ret 
+ 
+ 50:	89 ec                	mov    %ebp,%esp
+  
+52:	5d                   	pop    %ebp
+ 
+ 53:	c3                   	ret 

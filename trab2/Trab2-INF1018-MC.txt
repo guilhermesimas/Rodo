@@ -1,0 +1,42 @@
+je:
+	74(const)	0xfe menos numero de bytes de diferença entre o flag e je
+	ex:
+00000000 <main>:
+   0:	55                   	push   %ebp
+   1:	89 e5                	mov    %esp,%ebp
+   3:	53                   	push   %ebx
+
+00000004 <L4>:
+   4:	74 fe                	je     4 <L4>
+   6:	74 fc                	je     4 <L4>
+   8:	b8 04 00 00 00       	mov    $0x4,%eax
+   d:	74 f5                	je     4 <L4>
+   f:	74 f3                	je     4 <L4>
+
+00000011 <L1>:
+  11:	74 fe                	je     11 <L1>
+  13:	74 fc                	je     11 <L1>
+  15:	c3                   	ret    
+  16:	74 f9                	je     11 <L1>
+  18:	74 f7                	je     11 <L1>
+  1a:	5b                   	pop    %ebx
+  1b:	89 ec                	mov    %ebp,%esp
+  1d:	5d                   	pop    %ebp
+  1e:	c3                   	ret    
+
+
+subl:
+	(83/81)(83=1 byte)	e9(const)	valor do numero
+
+00000004 <SUB>:
+   4:	83 e9 04             	sub    $0x4,%ecx
+   7:	83 e9 10             	sub    $0x10,%ecx
+   a:	81 e9 01 01 00 00    	sub    $0x101,%ecx
+  10:	29 c1                	sub    %eax,%ecx
+  12:	29 d1                	sub    %edx,%ecx
+  14:	29 d0                	sub    %edx,%eax
+  16:	2b 4d 08             	sub    0x8(%ebp),%ecx
+  19:	2b 4d f8             	sub    -0x8(%ebp),%ecx
+  1c:	2b 4d 0c             	sub    0xc(%ebp),%ecx
+  1f:	2b 4d f4             	sub    -0xc(%ebp),%ecx
+

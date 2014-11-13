@@ -26,7 +26,6 @@ void checkVar(char var, int idx, int line) {
 typedef struct pendencias {
 	int byte_ini;
 	int linha;
-	int byte_fim;
 
 }Pendencias;
 typedef int (*funcp) ();
@@ -298,35 +297,427 @@ void atribuicao (unsigned char * cod, int * pos, char op, char var0, char varc1,
 
 }
 
-void ifeq (unsigned char * cod, int *pos, int * ini_linhas, int * pos_pend, Pendencias * pend, int linha, char varc0, char varc1, int idx0, int idx1, int num)
+void ifeq ( unsigned char * cod, int *pos, int * ini_linhas, int * pos_pend, Pendencias * pend[], int linha, char varc0, char varc1, int idx0, int idx1, int num)
 {
 	int i, pos_num;
+	char var;
 
-	//codigo comp
-
-	cod[(*pos)] = 0x74;
-	(*pos)++;
-
-	if(num<linha)
+	//codigo cmp
+	
+	if(varc0=='$')
 	{
-		 pos_num = (char*)0xff - &cod[ini_linhas[num]];
+		if(varc1=='$')
+		{
+			//ambos constantes
+			//movl varc0,%ecx
 
-		 printf(" pos_num: %x \n",pos_num);
+			cod[(*pos)]=0xb9;
+			(*pos)++;
 
-		 cod[(*pos)]=pos_num;
-		 (*pos)++;
+			for(i=0;i<4;i++)
+				{
+					cod[(*pos)] = (idx0 & 0xff);
+					(*pos)++;
+					idx0>>=8;
+				}
+
+			//cmp varc1,%ecx
+
+			if((unsigned int)idx0<(16*16))
+			{
+				cod[(*pos)]=0x83;
+				(*pos)++;
+				cod[(*pos)]=0xf9;
+				(*pos)++;
+				cod[(*pos)]=(char)idx0;
+				(*pos)++;
+			}
+			else
+			{
+				cod[(*pos)]=0x81;
+				(*pos)++;
+				cod[(*pos)]=0xf9;
+				(*pos)++;
+
+				for(i=0;i<4;i++)
+				{
+					cod[(*pos)] = (idx0 & 0xff);
+					(*pos)++;
+					idx0>>=8;
+				}
+			}
+			
+		}
+		else // varc1=='$'
+		{
+			if(varc1=='v')
+			{
+				// 0 constante 1 local
+				//cmp varc0,-(8+4i)(%ebp)
+
+				if( ((unsigned int)idx0) < (16*16) )
+				{
+					cod[(*pos)]=0x83;
+					(*pos)++;
+					cod[(*pos)]=0x7d;
+					(*pos)++;
+					printf("\nblabla\n");
+					printf("%d\n",idx0);
+					var=(char)(-(8+4*idx1));//------------------------------------------------------------------------------------------------------------
+					printf("\nbla: %x\n",var);
+					cod[(*pos)]=var;
+					(*pos)++;
+
+					cod[(*pos)]=(char)idx0;
+					(*pos)++;
+				}
+				else
+				{
+					cod[(*pos)]=0x81;
+					(*pos)++;
+					cod[(*pos)]=0x7d;
+					(*pos)++;
+
+					var=(char)(-(8+4*idx0));
+					cod[(*pos)]=var;
+					(*pos)++;
+
+					for(i=0;i<4;i++)
+					{
+						cod[(*pos)] = (idx0 & 0xff);
+						(*pos)++;
+						idx0>>=8;
+					}
+				}
+
+
+			}
+			else
+			{
+				// 0 constante 1 parametro
+				//cmp varc0, (8+4i)(%ebp)
+
+				if((unsigned int)idx0<(16*16))
+				{
+					cod[(*pos)]=0x83;
+					(*pos)++;
+					cod[(*pos)]=0x7d;
+					(*pos)++;
+
+					var=(char)(8+4*idx1);
+					cod[(*pos)]=var;
+					(*pos)++;
+
+					cod[(*pos)]=(char)idx0;
+					(*pos)++;
+				}
+				else
+				{
+					cod[(*pos)]=0x81;
+					(*pos)++;
+					cod[(*pos)]=0x7d;
+					(*pos)++;
+
+					var=(char)(8+4*idx1);
+					cod[(*pos)]=var;
+					(*pos)++;
+
+					for(i=0;i<4;i++)
+					{
+						cod[(*pos)] = (idx0 & 0xff);
+						(*pos)++;
+						idx0>>=8;
+					}
+				}
+			}
+		}
+	}
+	else // varc0=='$'
+	{
+		if(varc0=='v')
+		{
+			if(varc1=='$')
+			{
+				// 0 local 1 constante
+				//cmp varc1, -(8+4i)(%ebp)
+
+				if((unsigned int)idx1<(16*16))
+				{
+					cod[(*pos)]=0x83;
+					(*pos)++;
+					cod[(*pos)]=0x7d;
+					(*pos)++;
+
+					var=(char)(-(8+4*idx0));
+					cod[(*pos)]=var;
+					(*pos)++;
+
+					cod[(*pos)]=(char)idx1;
+					(*pos)++;
+				}
+				else
+				{
+					cod[(*pos)]=0x81;
+					(*pos)++;
+					cod[(*pos)]=0x7d;
+					(*pos)++;
+
+					var=(char)(-(8+4*idx0));
+					cod[(*pos)]=var;
+					(*pos)++;
+
+					for(i=0;i<4;i++)
+					{
+						cod[(*pos)] = (idx1 & 0xff);
+						(*pos)++;
+						idx1>>=8;
+					}
+				}
+			}
+			else // varc1=='$'
+			{
+
+				//movl varc0, %ecx
+				//feito
+
+				cod[(*pos)]=0x8b;
+				(*pos)++;
+				cod[(*pos)]=0x4d;
+				(*pos)++;
+
+				var=(char)(-(8+4*idx0));
+				cod[(*pos)]=var;
+				(*pos)++;
+
+				cod[(*pos)]=0x39;
+				(*pos)++;
+				cod[(*pos)]=0x4d;
+				(*pos)++;
+
+				if(varc1=='v')
+				{
+					// 0 local 1 local
+					//cmp %ecx, -(8+4i)(%ebp)
+
+					var=(char)(-(8+4*idx1));
+					cod[(*pos)]=var;
+					(*pos)++;
+
+				}
+				else
+				{
+					// 0 local 1 parametro
+					//cmp %ecx, (8+4i)(%ebp)
+
+
+					var=(char)(8+4*idx1);
+					cod[(*pos)]=var;
+					(*pos)++;
+				}
+			}
+		}
+		else // (varc0=='v')
+		{
+			//varc0 parametro
+
+			if(varc1=='$')
+			{
+				// 0 parametro 1 constante
+				//cmp varc1,(8+4i)(%ebp)
+
+				if((unsigned int)idx1<(16*16))
+				{
+					cod[(*pos)]=0x83;
+					(*pos)++;
+					cod[(*pos)]=0x7d;
+					(*pos)++;
+
+					var=(char)(8+4*idx0);
+					cod[(*pos)]=var;
+					(*pos)++;
+
+					cod[(*pos)]=(char)idx1;
+					(*pos)++;
+				}
+				else
+				{
+					cod[(*pos)]=0x81;
+					(*pos)++;
+					cod[(*pos)]=0x7d;
+					(*pos)++;
+
+					var=(char)(8+4*idx0);
+					cod[(*pos)]=var;
+					(*pos)++;
+
+					for(i=0;i<4;i++)
+					{
+						cod[(*pos)] = (idx1 & 0xff);
+						(*pos)++;
+						idx1>>=8;
+					}
+				}
+			}
+			else
+			{
+
+				//movl, varc0,%ecx
+				//feito
+
+				cod[(*pos)]=0x8b;
+				(*pos)++;
+				cod[(*pos)]=0x4d;
+				(*pos)++;
+
+				var=(char)(8+4*idx0);
+				cod[(*pos)]=var;
+				(*pos)++;
+
+				cod[(*pos)]=0x83;
+				(*pos)++;
+				cod[(*pos)]=0x7d;
+				(*pos)++;
+
+				cod[(*pos)]=0x39;
+				(*pos)++;
+				cod[(*pos)]=0x4d;
+				(*pos)++;
+
+
+				if(varc1=='v')
+				{
+					// 0 parametro 1 local
+					//cmp %ecx, -(8+4i)(%ebp)
+
+					var=(char)(-(8+4*idx1));
+					cod[(*pos)]=var;
+					(*pos)++;
+
+				}
+				else
+				{
+					// ambos parametro
+					//cmp %ecx, (8+4i)(%ebp)
+
+					var=(char)(8+4*idx1);
+					cod[(*pos)]=var;
+					(*pos)++;
+				}
+			}
+		}
+	}
+
+
+	if(num <= linha)
+	{
+		 pos_num = ini_linhas[num-1] - (*pos + 2) ;
+		 printf("\nini_linhas[%d] (%d) - (*pos(%d) + 2)\n",num,ini_linhas[num],*pos);
+
+		 printf(" pos_num: %x \n" , pos_num ) ;
+
+		 if(pos_num < 0xffffff80 )//quando vira 4 bytes
+		 {
+			
+			 cod[(*pos)]=0x0f;
+			 (*pos)++;
+			 cod[(*pos)]=0x84;
+			 (*pos)++;
+			
+			 pos_num-=4;
+			 
+			 for(i=0;i<4;i++)
+			 {
+				cod[(*pos)] = (pos_num & 0xff);
+				(*pos)++;
+				pos_num>>=8;
+			 }
+		 }
+		 else // pos_num >= 0x80 || pos_num < 0xffffff80
+		 {
+			cod[(*pos)] = 0x74;
+			(*pos)++;
+
+			cod[(*pos)]=(unsigned char)pos_num;
+			(*pos)++;
+		 }
+	}
+	else // num <= linha
+	{
+
+		pend[*pos_pend]->linha=num;
+		pend[*pos_pend]->byte_ini=*pos;
+
+		(*pos)+=6; // pior caso: 0f 84 XX XX XX XX || melhor caso: 74 XX -----------------checar
+
+		(*pos_pend)++;
+
 	}
 }
 
-funcp getcod(FILE * f, int *pos)
+void preenche_pendencias (unsigned char * cod, int * ini_linhas, int pos_pend, Pendencias ** pend)
 {
-	unsigned char codigo[300];
+	int i,j,pos_num,diff_lin;
+
+	for(i=0;i<pos_pend;i++)
+	{
+		
+		pos_num = ini_linhas[(pend[i]->linha)-1] - (pend[i]->byte_ini + 2) ;
+
+		 printf(" pos_num: %x \n" , pos_num ) ;
+
+		 if(pos_num >= 0x80 || pos_num < 0xffffff80 )//quando vira 4 bytes
+		 {
+			 if(pos_num < 0)
+			 {
+				 pos_num-=4; //um byte a mais para "voltar"
+			 }
+			 cod[(pend[i]->byte_ini)]=0x0f;
+			 cod[(pend[i]->byte_ini)+1]=0x84;
+			 
+			 for(i=0;i<4;i++)
+			 {
+				cod[ ( pend[i]->byte_ini ) + 2 + i] = (pos_num & 0xff);
+				pos_num>>=8;
+			 }
+		 }
+		 else // pos_num >= 0x80 || pos_num < 0xffffff80
+		 {
+			 cod[pend[i]->byte_ini] = 0x74;
+
+			 cod[ (pend[i]->byte_ini) + 1 ]=(unsigned char)pos_num;
+		
+			 for(i=0;i<4;i++)
+			 {
+				cod[ ( pend[i]->byte_ini ) + 2 + i] = 0;
+			 }
+		 }
+	}
+}
+funcp geracod(FILE * f, int * pos)
+{
+	unsigned char codigo[1000];
 	int ini_linhas[50], posicao=0, pos_pend=0, linha=0;
-	Pendencias pend [50];
+	Pendencias * pend;
 	char c;
+
+	pend = (Pendencias*)malloc(50*sizeof(Pendencias));
+
+	codigo[posicao]=0x55;
+	posicao++;
+	codigo[posicao]=0x89;
+	posicao++;
+	codigo[posicao]=0xe5;
+	posicao++;
+	codigo[posicao]=0x83;
+	posicao++;
+	codigo[posicao]=0xec;
+	posicao++;
+	codigo[posicao]=0x14;
+	posicao++;
 
   while ((c = fgetc(f)) != EOF) {
 
+	  printf("entrou no while\n");
 	  ini_linhas[linha]=posicao;
 
     switch (c) {
@@ -357,7 +748,7 @@ funcp getcod(FILE * f, int *pos)
         fscanf(f, "feq %c%d %c%d %d", &var0, &idx0, &var1, &idx1, 
                                                 &num);
 
-        ifeq(codigo,&posicao,ini_linhas,&pos_pend, pend, linha,var0,var1,idx0,idx1,num);
+        ifeq(codigo,&posicao,ini_linhas,&pos_pend, &pend, linha,var0,var1,idx0,idx1,num);
 
         break;
       }
@@ -368,16 +759,18 @@ funcp getcod(FILE * f, int *pos)
 
   }
 
+	preenche_pendencias (codigo, ini_linhas, pos_pend, &pend);
+
 	return (funcp) codigo;
 
 }
 
-  int main(int argc, char* argv)
+  int main(void)
 {
 	funcp fun;
-	int i,fim;
-	FILE * f = fopen("teste.txt","r");
+	int i,fim,vp[10],res;
 	unsigned char * codigo;
+	FILE * f = fopen("teste.txt","r");
 	
 
 	if(f==NULL)
@@ -386,12 +779,16 @@ funcp getcod(FILE * f, int *pos)
 		return 1;
 	}
 
-	codigo = (unsigned char*)getcod(f,&fim);
+	printf("vai gerar codigo\n");
+	codigo = (unsigned char*)geracod(f,&fim);
+	fun = geracod(f,&fim);
 	
 	for(i=0;i<fim;i++)
 	{
 		printf("%x \n",codigo[i]);
 	}
+
+	printf("%d",(*fun)());
 
 	return 0;
 }

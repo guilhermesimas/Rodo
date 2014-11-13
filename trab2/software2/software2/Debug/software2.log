@@ -1,9 +1,24 @@
-﻿Build started 11/7/2014 6:34:47 PM.
+﻿Build started 11/13/2014 2:52:44 PM.
      1>Project "C:\Users\Guilherme Simas\Documents\GitHub\Rodo\trab2\software2\software2\software2.vcxproj" on node 2 (build target(s)).
      1>InitializeBuildStatus:
          Creating "Debug\software2.unsuccessfulbuild" because "AlwaysCreate" was specified.
        ClCompile:
-         All outputs are up-to-date.
+         C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\CL.exe /c /ZI /nologo /W3 /WX- /Od /Oy- /D WIN32 /D _DEBUG /D _CONSOLE /D _UNICODE /D UNICODE /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc100.pdb" /Gd /TC /analyze- /errorReport:prompt getcod.c
+         getcod.c
+     1>c:\users\guilherme simas\documents\github\rodo\trab2\software2\software2\getcod.c(659): warning C4101: 'diff_lin' : unreferenced local variable
+     1>c:\users\guilherme simas\documents\github\rodo\trab2\software2\software2\getcod.c(659): warning C4101: 'j' : unreferenced local variable
+     1>c:\users\guilherme simas\documents\github\rodo\trab2\software2\software2\getcod.c(727): warning C4996: 'fscanf': This function or variable may be unsafe. Consider using fscanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 10.0\vc\include\stdio.h(253) : see declaration of 'fscanf'
+     1>c:\users\guilherme simas\documents\github\rodo\trab2\software2\software2\getcod.c(738): warning C4996: 'fscanf': This function or variable may be unsafe. Consider using fscanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 10.0\vc\include\stdio.h(253) : see declaration of 'fscanf'
+     1>c:\users\guilherme simas\documents\github\rodo\trab2\software2\software2\getcod.c(749): warning C4996: 'fscanf': This function or variable may be unsafe. Consider using fscanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 10.0\vc\include\stdio.h(253) : see declaration of 'fscanf'
+     1>c:\users\guilherme simas\documents\github\rodo\trab2\software2\software2\getcod.c(764): warning C4172: returning address of local variable or temporary
+     1>c:\users\guilherme simas\documents\github\rodo\trab2\software2\software2\getcod.c(773): warning C4996: 'fopen': This function or variable may be unsafe. Consider using fopen_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 10.0\vc\include\stdio.h(234) : see declaration of 'fopen'
+     1>c:\users\guilherme simas\documents\github\rodo\trab2\software2\software2\getcod.c(771): warning C4101: 'res' : unreferenced local variable
+     1>c:\users\guilherme simas\documents\github\rodo\trab2\software2\software2\getcod.c(770): warning C4101: 'fun' : unreferenced local variable
+     1>c:\users\guilherme simas\documents\github\rodo\trab2\software2\software2\getcod.c(771): warning C4101: 'vp' : unreferenced local variable
        ManifestResourceCompile:
          All outputs are up-to-date.
        Link:
@@ -22,4 +37,4 @@
 
 Build succeeded.
 
-Time Elapsed 00:00:00.71
+Time Elapsed 00:00:00.95
